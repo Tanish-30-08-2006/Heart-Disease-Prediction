@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <title>Dashboard — CardioRisk Clinical Assessment</title>
+  <link rel="stylesheet" href="style.css"/>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.3/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<!-- ── Disclaimer Modal ──────────────────────────────────────────────────── -->
+<div id="disclaimer-overlay">
+  <div class="disclaimer-modal">
+    <div class="disclaimer-eyebrow">⚠ Academic Portfolio Project — Important Notice</div>
+    <h2>Terms of Use &amp; Clinical Disclaimer</h2>
+    <div class="disclaimer-body">
+      <p>
+        <strong>CardioRisk Clinical Assessment System</strong> is an academic portfolio project
+        built to demonstrate applied machine learning on clinical data. It is
+        <strong>NOT a licensed medical device</strong> and must not be used to make or
+        influence real patient care decisions.
+      </p>
+      <p>
+        The underlying Random Forest model was trained on the publicly available UCI Heart
+        Disease Dataset (n=918) and has not undergone clinical validation, regulatory review,
+        or peer-reviewed audit. Dashboard statistics marked "Demo Data" are synthetic and
+        for visualisation purposes only.
+      </p>
+      <p>
+        By proceeding, you confirm you understand these limitations and will not rely on
+        this tool for any clinical decision whatsoever.
+      </p>
+    </div>
+    <div class="disclaimer-footer">
+      <small>v1.0.0 · Random Forest · UCI Dataset · Threshold: 35%</small>
+      <button class="btn btn-primary" onclick="acknowledgeDisclaimer()">
+        I Acknowledge &amp; Proceed →
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- ── App Shell ─────────────────────────────────────────────────────────── -->
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+
+  <div class="main-content">
+
+    <!-- Topbar -->
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">Dashboard</div>
+        <div class="topbar-subtitle">Overview &amp; Model Summary</div>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-badge">Academic Tool</span>
+        <div class="api-status-dot" id="api-dot" title="Checking API..."></div>
+      </div>
+    </div>
+
+    <!-- Page Content -->
+    <div class="page-content">
+
+      <div class="page-header">
+        <div class="page-eyebrow"><span class="eyebrow-dot"></span> Overview</div>
+        <h1>Clinical Heart Disease Tracker</h1>
+        <p>Academic ML project — Random Forest cardiac risk classifier. Demo data is synthetic; predictions use your trained model.</p>
+      </div>
+
+      <!-- KPI Strip -->
+      <div class="kpi-grid">
+        <div class="kpi-card kpi-blue">
+          <div class="kpi-label">Model Accuracy</div>
+          <div class="kpi-value">88.0%</div>
+          <div class="kpi-sub">Test set, n=184 patients</div>
+        </div>
+        <div class="kpi-card kpi-teal">
+          <div class="kpi-label">Recall (Sensitivity)</div>
+          <div class="kpi-value">91.2%</div>
+          <div class="kpi-sub">At 35% threshold</div>
+        </div>
+        <div class="kpi-card kpi-purple">
+          <div class="kpi-label">Training Dataset</div>
+          <div class="kpi-value">918</div>
+          <div class="kpi-sub">UCI Heart Disease patients</div>
+        </div>
+        <div class="kpi-card kpi-green">
+          <div class="kpi-label">ROC-AUC Score</div>
+          <div class="kpi-value">0.933</div>
+          <div class="kpi-sub">Random Forest baseline</div>
+        </div>
+      </div>
+
+      <!-- Row 2: Demo Patient + Risk Panel -->
+      <div class="grid-60-40 mt-5">
+
+        <!-- Demo Patient Overview -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-header-icon icon-teal">👤</div>
+            <div class="card-header-text">
+              <h3>Demo Patient Overview — Hardik Shah, 58, Male</h3>
+              <p>Synthetic data for visualisation only</p>
+            </div>
+            <div class="card-header-actions">
+              <span class="demo-chip">Demo Data</span>
+            </div>
+          </div>
+          <div class="card-body">
+            <p style="font-size:0.78rem;color:var(--text-3);margin-bottom:14px;">
+              Blood Pressure Trend — Last 6 Months (mmHg)
+            </p>
+            <div class="chart-wrap">
+              <canvas id="bp-chart"></canvas>
+            </div>
+            <p style="font-size:0.78rem;color:var(--text-3);margin:16px 0 10px;">
+              Cholesterol Readings (mg/dL)
+            </p>
+            <div class="chart-wrap">
+              <canvas id="chol-chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <!-- Risk Panel -->
+        <div style="display:flex;flex-direction:column;gap:20px;">
+
+          <!-- Gauge Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-red">♥</div>
+              <div class="card-header-text">
+                <h3>Last Prediction Result</h3>
+                <p>Run an assessment to populate this panel</p>
+              </div>
+            </div>
+            <div class="card-body" style="text-align:center;">
+              <div id="dashboard-gauge"></div>
+              <div class="chip-row" id="dashboard-chips" style="justify-content:center;"></div>
+              <a href="assessment.html" class="btn btn-primary btn-full" style="margin-top:16px;">
+                ⊕ &nbsp;Run New Assessment
+              </a>
+            </div>
+          </div>
+
+          <!-- Model Performance Card -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-blue">📊</div>
+              <div class="card-header-text">
+                <h3>Model Performance</h3>
+                <p>Test set metrics (n=184)</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="metric-bar-row">
+                <span class="metric-bar-label">Recall</span>
+                <div class="metric-bar-outer"><div class="metric-bar-inner" style="width:91.2%;background:var(--green);"></div></div>
+                <span class="metric-bar-value">91.2%</span>
+              </div>
+              <div class="metric-bar-row">
+                <span class="metric-bar-label">Precision</span>
+                <div class="metric-bar-outer"><div class="metric-bar-inner" style="width:88%;background:var(--blue);"></div></div>
+                <span class="metric-bar-value">88.0%</span>
+              </div>
+              <div class="metric-bar-row">
+                <span class="metric-bar-label">F1 Score</span>
+                <div class="metric-bar-outer"><div class="metric-bar-inner" style="width:89.6%;background:var(--teal);"></div></div>
+                <span class="metric-bar-value">89.6%</span>
+              </div>
+              <div class="metric-bar-row">
+                <span class="metric-bar-label">Accuracy</span>
+                <div class="metric-bar-outer"><div class="metric-bar-inner" style="width:88%;background:var(--purple);"></div></div>
+                <span class="metric-bar-value">88.0%</span>
+              </div>
+              <div class="metric-bar-row">
+                <span class="metric-bar-label">ROC-AUC</span>
+                <div class="metric-bar-outer"><div class="metric-bar-inner" style="width:93.3%;background:var(--amber);"></div></div>
+                <span class="metric-bar-value">93.3%</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Row 3: Feature Importances + Quick Start -->
+      <div class="grid-60-40 mt-5">
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-header-icon icon-purple">🎯</div>
+            <div class="card-header-text">
+              <h3>Top Feature Importances</h3>
+              <p>Random Forest Gini scores — extracted from trained model</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="chart-wrap-tall">
+              <canvas id="importance-chart"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:20px;">
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-green">🚀</div>
+              <div class="card-header-text">
+                <h3>Quick Start</h3>
+                <p>Begin a new patient risk assessment</p>
+              </div>
+            </div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:12px;">
+              <p style="font-size:0.85rem;color:var(--text-2);line-height:1.7;">
+                Enter 11 clinical parameters — demographics, vitals, ECG, and exercise stress
+                test results — to receive an instant cardiac risk classification with
+                probability score and feature breakdown.
+              </p>
+              <div class="chip-row">
+                <span class="chip chip-blue">11 Parameters</span>
+                <span class="chip chip-teal">35% Threshold</span>
+                <span class="chip chip-green">Instant Result</span>
+              </div>
+              <a href="assessment.html" class="btn btn-primary btn-lg btn-full" style="margin-top:4px;">
+                ⊕ &nbsp;New Assessment →
+              </a>
+              <a href="methodology.html" class="btn btn-outline btn-full">
+                ⚙ &nbsp;View Methodology
+              </a>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-amber">⚙</div>
+              <div class="card-header-text">
+                <h3>System Info</h3>
+                <p>Model configuration</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <table class="data-table">
+                <tr><td>Algorithm</td><td>Random Forest</td></tr>
+                <tr><td>Trees</td><td>n_estimators = 100</td></tr>
+                <tr><td>Threshold</td><td>35% (medical safety)</td></tr>
+                <tr><td>Dataset</td><td>UCI Heart Disease</td></tr>
+                <tr><td>Training n</td><td>734 patients</td></tr>
+                <tr><td>Test n</td><td>184 patients</td></tr>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="page-footer">
+        <p>CardioRisk Clinical Assessment System · Academic Portfolio · Not a licensed medical device</p>
+        <p>Tanish Sanghavi · Random Forest · UCI Heart Disease Dataset</p>
+      </div>
+
+    </div><!-- /page-content -->
+  </div><!-- /main-content -->
+</div><!-- /app-shell -->
+
+<script src="gauge.js"></script>
+<script src="app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    initTheme();
+    injectSidebar('dashboard');
+    checkApiStatus('api-dot');
+    initDisclaimer();
+    initDashboard();
+  });
+</script>
+</body>
+</html>
