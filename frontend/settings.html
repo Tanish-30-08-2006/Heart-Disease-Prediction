@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Settings — CardioRisk</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main-content">
+
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">Settings</div>
+        <div class="topbar-subtitle">Appearance, Session &amp; System</div>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-badge">Academic Tool</span>
+        <div class="api-status-dot" id="api-dot"></div>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="page-header">
+        <div class="page-eyebrow"><span class="eyebrow-dot"></span> Preferences &amp; System</div>
+        <h1>Settings</h1>
+        <p>Appearance preferences, session management, and live API status monitoring.</p>
+      </div>
+
+      <div class="grid-2">
+
+        <!-- Left Column -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+
+          <!-- Appearance -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-purple">🎨</div>
+              <div class="card-header-text">
+                <h3>Appearance</h3>
+                <p>Theme and display preferences</p>
+              </div>
+            </div>
+            <div class="card-body">
+
+              <div class="setting-row">
+                <div>
+                  <div class="setting-label">Dark Mode</div>
+                  <div class="setting-desc">Switch between light whitish-navy and dark navy theme</div>
+                  <!-- Live preview swatches -->
+                  <div style="display:flex;gap:8px;margin-top:8px;">
+                    <div style="width:48px;height:28px;border-radius:4px;background:#eef2f7;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;">
+                      <div style="width:20px;height:10px;border-radius:2px;background:#1a2332;"></div>
+                    </div>
+                    <div style="width:48px;height:28px;border-radius:4px;background:#0a0e1a;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;">
+                      <div style="width:20px;height:10px;border-radius:2px;background:#2563eb;"></div>
+                    </div>
+                  </div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" id="dark-mode-toggle" onchange="setDarkMode(this.checked)"/>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+              <div class="setting-row">
+                <div>
+                  <div class="setting-label">Sidebar Default State</div>
+                  <div class="setting-desc">Start with sidebar expanded or collapsed</div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" id="sidebar-default-toggle"
+                    onchange="localStorage.setItem('sidebar_collapsed', this.checked)"
+                    />
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Session Management -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-amber">🗂</div>
+              <div class="card-header-text">
+                <h3>Session Data</h3>
+                <p>Manage stored assessment results</p>
+              </div>
+            </div>
+            <div class="card-body">
+
+              <div class="setting-row">
+                <div>
+                  <div class="setting-label">Last Assessment Result</div>
+                  <div class="setting-desc" id="session-status">Checking session storage...</div>
+                </div>
+                <button class="btn btn-outline" onclick="clearSession()" id="clear-session-btn" style="font-size:0.8rem;padding:6px 14px;">
+                  Clear
+                </button>
+              </div>
+
+              <div class="setting-row">
+                <div>
+                  <div class="setting-label">Theme Preference</div>
+                  <div class="setting-desc">Stored in localStorage — persists across sessions</div>
+                </div>
+                <button class="btn btn-outline" onclick="clearTheme()" style="font-size:0.8rem;padding:6px 14px;">
+                  Reset
+                </button>
+              </div>
+
+              <div class="setting-row" style="border-bottom:none;">
+                <div>
+                  <div class="setting-label">Clear All Local Data</div>
+                  <div class="setting-desc">Removes all stored settings and results from this browser</div>
+                </div>
+                <button class="btn btn-danger" onclick="clearAll()" style="font-size:0.8rem;padding:6px 14px;">
+                  Clear All
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+
+          <!-- API Status -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-green">📡</div>
+              <div class="card-header-text">
+                <h3>API Status Monitor</h3>
+                <p>Live connection to Render backend</p>
+              </div>
+              <div class="card-header-actions">
+                <button class="btn btn-outline" onclick="runManualHealthCheck()" style="font-size:0.78rem;padding:5px 12px;">
+                  Refresh
+                </button>
+              </div>
+            </div>
+            <div class="card-body">
+
+              <div style="display:flex;align-items:center;gap:14px;padding:16px;background:var(--card-2);border-radius:var(--radius-md);border:1px solid var(--border);margin-bottom:14px;">
+                <div class="api-status-dot" id="api-status-large" style="width:14px;height:14px;box-shadow:0 0 0 3px rgba(22,163,74,0.15);"></div>
+                <div>
+                  <div style="font-size:0.9rem;font-weight:600;color:var(--text-1);" id="api-status-text">Checking...</div>
+                  <div style="font-family:var(--font-mono);font-size:0.68rem;color:var(--text-4);" id="api-status-sub">Pinging inference server</div>
+                </div>
+              </div>
+
+              <div id="api-health-data" style="display:none;">
+                <table class="data-table" id="api-health-table">
+                  <thead><tr><th>Property</th><th>Value</th></tr></thead>
+                  <tbody id="api-health-tbody"></tbody>
+                </table>
+              </div>
+
+              <div class="setting-row" style="border-bottom:none;padding-top:14px;">
+                <div>
+                  <div class="setting-label">Auto-refresh Interval</div>
+                  <div class="setting-desc">Status checked automatically every 30 seconds</div>
+                </div>
+                <label class="toggle">
+                  <input type="checkbox" id="auto-refresh-toggle" checked
+                    onchange="toggleAutoRefresh(this.checked)"/>
+                  <span class="toggle-slider"></span>
+                </label>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Model Info -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-blue">⚙</div>
+              <div class="card-header-text">
+                <h3>Model Configuration</h3>
+                <p>Read-only — serialised artifacts</p>
+              </div>
+            </div>
+            <div class="card-body" style="padding:0;">
+              <table class="data-table">
+                <thead><tr><th>Parameter</th><th>Value</th></tr></thead>
+                <tbody>
+                  <tr><td>Algorithm</td><td>Random Forest Classifier</td></tr>
+                  <tr><td>n_estimators</td><td>100</td></tr>
+                  <tr><td>random_state</td><td>42</td></tr>
+                  <tr><td>Classification Threshold</td><td>35%</td></tr>
+                  <tr><td>Scaler</td><td>StandardScaler (Z-score)</td></tr>
+                  <tr><td>Training Set</td><td>734 patients (80%)</td></tr>
+                  <tr><td>Test Set</td><td>184 patients (20%)</td></tr>
+                  <tr><td>Stratified Split</td><td>Yes</td></tr>
+                  <tr><td>Serialisation</td><td>joblib 1.4.2</td></tr>
+                  <tr><td>Python Version</td><td>3.11</td></tr>
+                  <tr><td>scikit-learn</td><td>1.4.2</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- App Info -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-teal">ℹ</div>
+              <div class="card-header-text">
+                <h3>Application Info</h3>
+                <p>Version and deployment details</p>
+              </div>
+            </div>
+            <div class="card-body" style="padding:0;">
+              <table class="data-table">
+                <thead><tr><th>Property</th><th>Value</th></tr></thead>
+                <tbody>
+                  <tr><td>App Name</td><td>CardioRisk Clinical Assessment</td></tr>
+                  <tr><td>Version</td><td>1.0.0</td></tr>
+                  <tr><td>Frontend</td><td>Vercel (Static HTML/JS)</td></tr>
+                  <tr><td>Backend</td><td>Render (FastAPI)</td></tr>
+                  <tr><td>Author</td><td>Tanish Sanghavi</td></tr>
+                  <tr><td>Institution</td><td>DAIICT Gandhinagar</td></tr>
+                  <tr><td>Purpose</td><td>Academic Portfolio Project</td></tr>
+                  <tr><td>Dataset</td><td>UCI Heart Disease (n=918)</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <p>CardioRisk Clinical Assessment System · Academic Portfolio · Not a licensed medical device</p>
+        <p>Tanish Sanghavi · DAIICT Gandhinagar</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="gauge.js"></script>
+<script src="app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    initTheme();
+    injectSidebar('settings');
+    initSettingsPage();
+  });
+</script>
+</body>
+</html>
