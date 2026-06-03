@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>About — CardioRisk</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">About</div>
+        <div class="topbar-subtitle">Project Information &amp; Author</div>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-badge">Academic Tool</span>
+        <div class="api-status-dot" id="api-dot"></div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="page-header">
+        <div class="page-eyebrow"><span class="eyebrow-dot"></span> Project Information</div>
+        <h1>About CardioRisk</h1>
+        <p>Clinical Heart Disease Tracking System — Academic Machine Learning Portfolio Project</p>
+      </div>
+
+      <div class="grid-60-40">
+
+        <div style="display:flex;flex-direction:column;gap:16px;">
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-blue">📄</div>
+              <div class="card-header-text"><h3>Project Overview</h3><p>What this is and what it is not</p></div>
+            </div>
+            <div class="card-body">
+              <div class="interp-section">
+                <h4>What This Project Is</h4>
+                <p>CardioRisk is a full-stack machine learning portfolio project demonstrating the complete workflow from raw clinical data to a deployed prediction API with a professional web interface. It covers exploratory data analysis, data cleaning, feature engineering, model selection across 8 algorithms, hyperparameter tuning, threshold optimisation, and production deployment via FastAPI on Render with a static frontend on Vercel.</p>
+              </div>
+              <div class="interp-section warning" style="margin-top:10px;">
+                <h4>What This Project Is NOT</h4>
+                <p><strong>This is not a licensed medical device.</strong> It has not undergone clinical validation, regulatory review (FDA, CE, CDSCO), or peer-reviewed external audit. The model was trained on a publicly available research dataset. It must not be used to make or influence any real patient care decision.</p>
+              </div>
+              <div class="interp-section amber" style="margin-top:10px;">
+                <h4>Dataset Source</h4>
+                <p>UCI Heart Disease Dataset — combined Cleveland, Hungarian, Switzerland, Long Beach VA, and Statlog cohorts. 918 patients, 12 features, binary classification target. Accessed via Kaggle (fedesoriano, 2021).</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-teal">🛠</div>
+              <div class="card-header-text"><h3>Technology Stack</h3><p>Tools and frameworks used</p></div>
+            </div>
+            <div class="card-body">
+              <div style="display:flex;flex-direction:column;gap:14px;">
+                <div>
+                  <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3);margin-bottom:8px;">Machine Learning</div>
+                  <div class="tech-stack">
+                    <span class="chip chip-blue">Python 3.11</span>
+                    <span class="chip chip-blue">scikit-learn 1.4</span>
+                    <span class="chip chip-blue">pandas 2.2</span>
+                    <span class="chip chip-blue">numpy 1.26</span>
+                    <span class="chip chip-blue">joblib</span>
+                    <span class="chip chip-blue">Jupyter Notebooks</span>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3);margin-bottom:8px;">Backend API</div>
+                  <div class="tech-stack">
+                    <span class="chip chip-green">FastAPI</span>
+                    <span class="chip chip-green">uvicorn</span>
+                    <span class="chip chip-green">Pydantic v2</span>
+                    <span class="chip chip-green">Render (deployment)</span>
+                  </div>
+                </div>
+                <div>
+                  <div style="font-size:0.72rem;font-weight:600;text-transform:uppercase;letter-spacing:0.06em;color:var(--text-3);margin-bottom:8px;">Frontend</div>
+                  <div class="tech-stack">
+                    <span class="chip chip-purple">Pure HTML/CSS/JS</span>
+                    <span class="chip chip-purple">Chart.js 4</span>
+                    <span class="chip chip-purple">Plus Jakarta Sans</span>
+                    <span class="chip chip-purple">JetBrains Mono</span>
+                    <span class="chip chip-purple">Vercel (deployment)</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:16px;">
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-purple">👨‍💻</div>
+              <div class="card-header-text"><h3>Author</h3><p>Developer &amp; researcher</p></div>
+            </div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:14px;">
+              <div>
+                <div style="font-size:1.1rem;font-weight:700;color:var(--text-1);">Tanish Sanghavi</div>
+                <div style="font-size:0.82rem;color:var(--text-3);margin-top:3px;">B.Tech ICT-CS · DAIICT Gandhinagar · Batch 2028</div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;">
+                <a href="https://github.com/Tanish-30-08-2006" target="_blank" rel="noopener"
+                   class="btn btn-outline" style="justify-content:flex-start;gap:10px;">
+                  <span>⌥</span> GitHub — Tanish-30-08-2006
+                </a>
+                <a href="https://www.linkedin.com/in/tanish-sanghavi-a44b873b6" target="_blank" rel="noopener"
+                   class="btn btn-outline" style="justify-content:flex-start;gap:10px;">
+                  <span>in</span> LinkedIn — tanish-sanghavi-a44b873b6
+                </a>
+              </div>
+              <div class="interp-section" style="margin-top:4px;">
+                <h4>Academic Context</h4>
+                <p>First ML project. Covers complete pipeline: EDA → cleaning → encoding → feature engineering → 8-model comparison → GridSearchCV → threshold tuning → FastAPI deployment. Built as part of B.Tech curriculum and self-directed learning.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-amber">📚</div>
+              <div class="card-header-text"><h3>Citation</h3><p>Dataset reference</p></div>
+            </div>
+            <div class="card-body">
+              <div style="font-family:var(--font-mono);font-size:0.73rem;color:var(--text-2);line-height:1.8;background:var(--card-2);padding:12px;border-radius:var(--radius-md);border:1px solid var(--border);">
+                fedesoriano. (September 2021).<br>
+                Heart Failure Prediction Dataset.<br>
+                Retrieved from<br>
+                https://www.kaggle.com/fedesoriano/heart-failure-prediction<br><br>
+                Original: Janosi, A., Steinbrunn, W., Pfisterer, M., &amp; Detrano, R.<br>
+                (1988). Heart Disease. UCI Machine Learning Repository.
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-red">⚠</div>
+              <div class="card-header-text"><h3>Full Disclaimer</h3><p>Legal and ethical notice</p></div>
+            </div>
+            <div class="card-body">
+              <p style="font-size:0.82rem;color:var(--text-2);line-height:1.8;">
+                This application is an academic portfolio project produced for educational purposes only.
+                It is <strong style="color:var(--red);">NOT a licensed medical device</strong> and has NOT been validated for clinical use.
+                The predictions generated are probabilistic outputs of a statistical model trained on historical research data.
+                They do not constitute a medical diagnosis.
+                All patient care decisions must be made exclusively by qualified medical professionals
+                using validated clinical instruments and complete clinical judgement.
+                The author accepts no liability for any use of this tool beyond its stated educational purpose.
+              </p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <p>CardioRisk Clinical Assessment System · Academic Portfolio · Not a licensed medical device</p>
+        <p>Tanish Sanghavi · DAIICT Gandhinagar · Batch 2028</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="gauge.js"></script>
+<script src="app.js"></script>
+<script>document.addEventListener('DOMContentLoaded',function(){initTheme();injectSidebar('about');checkApiStatus('api-dot');});</script>
+</body>
+</html>
