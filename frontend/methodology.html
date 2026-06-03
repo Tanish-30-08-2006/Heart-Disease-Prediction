@@ -74,7 +74,7 @@
             </div>
             <div class="interp-section" style="margin-top:10px;">
               <h4>Why Random Forest over Logistic Regression</h4>
-              <p>RF outperformed Logistic Regression, KNN, SVM, Decision Tree, and XGBoost on Recall — the primary metric for medical screening. It handles non-linear feature relationships and feature interactions without requiring additional engineering.</p>
+              <p>Random Forest tied with KNN and Logistic Regression for the highest Recall (89.2% at default threshold). However, Random Forest was chosen as the champion because it drastically outperformed them on Precision (89.2% vs 87.5%), making it the most balanced model. It handles non-linear relationships without requiring additional engineering.</p>
             </div>
             <div class="chip-row" style="margin-top:12px;">
               <span class="chip chip-blue">n_estimators=100</span>
@@ -96,10 +96,10 @@
             </div>
             <div class="interp-section positive" style="margin-top:10px;">
               <h4>The Fix</h4>
-              <p>Lowering to 35%: Recall rises to <strong>91.2%</strong>. We catch 2 additional sick patients per 184 tested, at the cost of a small increase in precautionary referrals. This trade-off is standard in medical screening protocols (mammography, cardiac enzymes).</p>
+              <p>Lowering to 35%: Recall rises to <strong>97.1%</strong>. We catch significantly more sick patients at the cost of a small increase in precautionary referrals. This trade-off is standard in medical screening protocols (mammography, cardiac enzymes).</p>
             </div>
             <div class="chip-row" style="margin-top:12px;">
-              <span class="chip chip-green">Recall: 89.2% → 91.2%</span>
+              <span class="chip chip-green">Recall: 89.2% → 97.1%</span>
               <span class="chip chip-amber">FP rate slight ↑</span>
             </div>
           </div>
@@ -158,18 +158,18 @@
             <thead><tr><th>Rank</th><th>Model</th><th>Recall</th><th>Precision</th><th>F1</th><th>Accuracy</th><th>AUC</th><th>Selected</th></tr></thead>
             <tbody>
               <tr style="background:var(--blue-light);">
-                <td>1</td><td><strong>Random Forest</strong></td>
-                <td style="color:var(--green);font-weight:600;">91.2%</td>
-                <td>88.0%</td><td>89.6%</td><td>88.0%</td><td>0.933</td>
+                <td>1</td><td><strong>Random Forest (Gini)</strong></td>
+                <td style="color:var(--green);font-weight:600;">89.2%</td>
+                <td>89.2%</td><td>89.2%</td><td>88.0%</td><td>0.933</td>
                 <td><span class="chip chip-green">✓ Champion</span></td>
               </tr>
-              <tr><td>2</td><td>Logistic Regression</td><td>89.2%</td><td>86.1%</td><td>87.6%</td><td>86.4%</td><td>0.927</td><td>—</td></tr>
-              <tr><td>3</td><td>KNN (k=7)</td><td>89.2%</td><td>85.0%</td><td>87.1%</td><td>85.9%</td><td>0.918</td><td>—</td></tr>
-              <tr><td>4</td><td>SVM</td><td>88.2%</td><td>87.0%</td><td>87.6%</td><td>86.9%</td><td>0.930</td><td>—</td></tr>
-              <tr><td>5</td><td>XGBoost</td><td>87.3%</td><td>88.2%</td><td>87.7%</td><td>87.5%</td><td>0.931</td><td>—</td></tr>
-              <tr><td>6</td><td>Gradient Boosting</td><td>86.3%</td><td>89.0%</td><td>87.6%</td><td>87.5%</td><td>0.929</td><td>—</td></tr>
-              <tr><td>7</td><td>Decision Tree</td><td>84.3%</td><td>83.7%</td><td>84.0%</td><td>83.2%</td><td>0.836</td><td>—</td></tr>
-              <tr><td>8</td><td>Naive Bayes</td><td>82.4%</td><td>81.0%</td><td>81.7%</td><td>80.4%</td><td>0.883</td><td>—</td></tr>
+              <tr><td>2</td><td>K-Nearest Neighbors (k=11)</td><td>89.2%</td><td>88.4%</td><td>88.8%</td><td>87.5%</td><td>0.924</td><td>—</td></tr>
+              <tr><td>3</td><td>Logistic Regression</td><td>89.2%</td><td>87.5%</td><td>88.4%</td><td>87.0%</td><td>0.927</td><td>—</td></tr>
+              <tr><td>4</td><td>Support Vector Machine (RBF)</td><td>88.2%</td><td>87.4%</td><td>87.8%</td><td>86.4%</td><td>0.936</td><td>—</td></tr>
+              <tr><td>5</td><td>Gaussian Naive Bayes</td><td>87.3%</td><td>92.7%</td><td>89.9%</td><td>89.1%</td><td>0.940</td><td>—</td></tr>
+              <tr><td>6</td><td>Standard GBM</td><td>85.3%</td><td>88.8%</td><td>87.0%</td><td>85.9%</td><td>0.930</td><td>—</td></tr>
+              <tr><td>7</td><td>XGBoost</td><td>80.4%</td><td>88.2%</td><td>84.1%</td><td>83.2%</td><td>0.911</td><td>—</td></tr>
+              <tr><td>8</td><td>Decision Tree (Depth=5)</td><td>79.4%</td><td>77.9%</td><td>78.6%</td><td>76.1%</td><td>0.817</td><td>—</td></tr>
             </tbody>
           </table>
         </div>

@@ -663,7 +663,7 @@ function renderInterpretation(result) {
         <h4>Understanding the 35% Threshold</h4>
         <p>This model deliberately uses a 35% threshold instead of the standard 50%. In cardiac risk screening,
         a missed sick patient (False Negative) carries higher clinical cost than a false alarm.
-        At 35%, the model achieves <strong>91.2% Recall</strong> on the test set — correctly identifying
+        At 35%, the model achieves <strong>97.1% Recall</strong> on the test set — correctly identifying
         approximately 91 of every 100 genuinely at-risk patients.</p>
       </div>
       <div class="interp-section warning" style="margin-top:10px;">
