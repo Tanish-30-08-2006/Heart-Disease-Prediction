@@ -198,7 +198,7 @@ function drawGauge(containerId, pct, isHighRisk, placeholder) {
 // -----------------------------------------------------------------------------
 // API STATUS CHECKER — used on topbar and settings page
 // -----------------------------------------------------------------------------
-const API_BASE_URL = 'https://YOUR-RENDER-APP.onrender.com'; // ← replace after deploy
+const API_BASE_URL = 'https://cardiorisk-api-693e.onrender.com'; // ← replace after deploy
 
 async function checkApiStatus(dotId) {
   const dot = document.getElementById(dotId);
