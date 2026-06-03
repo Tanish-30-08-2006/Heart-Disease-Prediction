@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Methodology — CardioRisk</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main-content">
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">Methodology</div>
+        <div class="topbar-subtitle">Model Architecture &amp; Pipeline</div>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-badge">Academic Tool</span>
+        <div class="api-status-dot" id="api-dot"></div>
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="page-header">
+        <div class="page-eyebrow"><span class="eyebrow-dot"></span> Technical Documentation</div>
+        <h1>Model Methodology &amp; Architecture</h1>
+        <p>Complete technical overview of the machine learning pipeline, from raw data to deployed prediction API.</p>
+      </div>
+
+      <!-- Pipeline -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-header-icon icon-blue">🔄</div>
+          <div class="card-header-text">
+            <h3>End-to-End ML Pipeline</h3>
+            <p>From UCI raw data to live API prediction</p>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="pipeline-flow" style="gap:4px;flex-wrap:wrap;row-gap:12px;">
+            <div class="pipeline-step"><div class="pipeline-box">Raw UCI Data</div></div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step"><div class="pipeline-box">EDA</div></div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step"><div class="pipeline-box">Cleaning</div></div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step"><div class="pipeline-box">Encoding</div></div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step"><div class="pipeline-box">Feature Eng.</div></div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step"><div class="pipeline-box">80/20 Split</div></div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step"><div class="pipeline-box">StandardScaler</div></div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step highlight"><div class="pipeline-box">Random Forest</div></div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step"><div class="pipeline-box">35% Threshold</div></div>
+            <div class="pipeline-arrow">→</div>
+            <div class="pipeline-step highlight"><div class="pipeline-box">FastAPI Deploy</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid-2 mt-5">
+        <div class="card">
+          <div class="card-header">
+            <div class="card-header-icon icon-purple">🌲</div>
+            <div class="card-header-text"><h3>Algorithm — Random Forest</h3><p>Ensemble classifier</p></div>
+          </div>
+          <div class="card-body">
+            <div class="interp-section">
+              <h4>What it is</h4>
+              <p>An ensemble of 100 independently trained decision trees. Each tree is built on a random subset of patients (bootstrapping) and a random subset of features at each split. Final prediction is by majority vote.</p>
+            </div>
+            <div class="interp-section" style="margin-top:10px;">
+              <h4>Why Random Forest over Logistic Regression</h4>
+              <p>RF outperformed Logistic Regression, KNN, SVM, Decision Tree, and XGBoost on Recall — the primary metric for medical screening. It handles non-linear feature relationships and feature interactions without requiring additional engineering.</p>
+            </div>
+            <div class="chip-row" style="margin-top:12px;">
+              <span class="chip chip-blue">n_estimators=100</span>
+              <span class="chip chip-teal">random_state=42</span>
+              <span class="chip chip-purple">Gini Impurity</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-header-icon icon-amber">⚙</div>
+            <div class="card-header-text"><h3>35% Threshold Justification</h3><p>Clinical safety decision</p></div>
+          </div>
+          <div class="card-body">
+            <div class="interp-section amber">
+              <h4>The Core Problem</h4>
+              <p>Default threshold (50%): Recall = 89.2%. But in cardiac screening, a False Negative — classifying a sick patient as healthy — is far more dangerous than a False Positive.</p>
+            </div>
+            <div class="interp-section positive" style="margin-top:10px;">
+              <h4>The Fix</h4>
+              <p>Lowering to 35%: Recall rises to <strong>91.2%</strong>. We catch 2 additional sick patients per 184 tested, at the cost of a small increase in precautionary referrals. This trade-off is standard in medical screening protocols (mammography, cardiac enzymes).</p>
+            </div>
+            <div class="chip-row" style="margin-top:12px;">
+              <span class="chip chip-green">Recall: 89.2% → 91.2%</span>
+              <span class="chip chip-amber">FP rate slight ↑</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Data Cleaning -->
+      <div class="card mt-5">
+        <div class="card-header">
+          <div class="card-header-icon icon-teal">🔧</div>
+          <div class="card-header-text"><h3>Key Data Cleaning Decisions</h3><p>Notebook 02 — critical preprocessing steps</p></div>
+        </div>
+        <div class="card-body">
+          <div class="interp-section warning">
+            <h4>Cholesterol = 0 (n≈172 patients)</h4>
+            <p>A human cannot have 0 mg/dL cholesterol. These were missing values encoded as 0 during dataset merging across 5 hospital cohorts. Solution: replaced with the median of non-zero values (not mean — distribution is right-skewed). Median computed on non-zero values only. This preserved all 172 rows rather than dropping ~18% of the dataset.</p>
+          </div>
+          <div class="interp-section" style="margin-top:10px;">
+            <h4>RestingBP = 0 (n=1 patient)</h4>
+            <p>Same logic — physiologically impossible. Replaced with non-zero median. One row, negligible impact but corrected for data integrity.</p>
+          </div>
+          <div class="interp-section positive" style="margin-top:10px;">
+            <h4>Outliers — Kept Intentionally</h4>
+            <p>Cholesterol values up to 603 mg/dL and Oldpeak up to 6.2 mm are extreme but medically real — severely ill patients genuinely have these values. Removing them would bias the model away from the very patients most at risk.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Engineering -->
+      <div class="card mt-5">
+        <div class="card-header">
+          <div class="card-header-icon icon-green">⚡</div>
+          <div class="card-header-text"><h3>Engineered Features</h3><p>Domain-knowledge-derived additions to the raw dataset</p></div>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <table class="data-table">
+            <thead><tr><th>Feature</th><th>Formula</th><th>Clinical Rationale</th></tr></thead>
+            <tbody>
+              <tr><td><strong>MaxHR_Deficit</strong></td><td style="font-family:var(--font-mono);font-size:0.78rem;">(220 − Age) − MaxHR</td><td>Measures chronotropic competence gap. A high deficit = heart can't respond to stress.</td></tr>
+              <tr><td><strong>BP_Chol_Risk</strong></td><td style="font-family:var(--font-mono);font-size:0.78rem;">RestingBP × Cholesterol</td><td>Haemodynamic-metabolic interaction. Compound arterial damage risk.</td></tr>
+              <tr><td><strong>Is_Senior</strong></td><td style="font-family:var(--font-mono);font-size:0.78rem;">Age ≥ 60 → 1</td><td>Binary flag for substantially elevated baseline risk post-60.</td></tr>
+              <tr><td><strong>Is_Hypertensive</strong></td><td style="font-family:var(--font-mono);font-size:0.78rem;">RestingBP ≥ 140 → 1</td><td>Stage 2 hypertension clinical threshold — directly elevated CAD risk.</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Performance Table -->
+      <div class="card mt-5">
+        <div class="card-header">
+          <div class="card-header-icon icon-red">📊</div>
+          <div class="card-header-text"><h3>Model Comparison — All 8 Algorithms Tested</h3><p>Leaderboard sorted by Recall (primary clinical metric)</p></div>
+        </div>
+        <div class="card-body" style="padding:0;">
+          <table class="data-table">
+            <thead><tr><th>Rank</th><th>Model</th><th>Recall</th><th>Precision</th><th>F1</th><th>Accuracy</th><th>AUC</th><th>Selected</th></tr></thead>
+            <tbody>
+              <tr style="background:var(--blue-light);">
+                <td>1</td><td><strong>Random Forest</strong></td>
+                <td style="color:var(--green);font-weight:600;">91.2%</td>
+                <td>88.0%</td><td>89.6%</td><td>88.0%</td><td>0.933</td>
+                <td><span class="chip chip-green">✓ Champion</span></td>
+              </tr>
+              <tr><td>2</td><td>Logistic Regression</td><td>89.2%</td><td>86.1%</td><td>87.6%</td><td>86.4%</td><td>0.927</td><td>—</td></tr>
+              <tr><td>3</td><td>KNN (k=7)</td><td>89.2%</td><td>85.0%</td><td>87.1%</td><td>85.9%</td><td>0.918</td><td>—</td></tr>
+              <tr><td>4</td><td>SVM</td><td>88.2%</td><td>87.0%</td><td>87.6%</td><td>86.9%</td><td>0.930</td><td>—</td></tr>
+              <tr><td>5</td><td>XGBoost</td><td>87.3%</td><td>88.2%</td><td>87.7%</td><td>87.5%</td><td>0.931</td><td>—</td></tr>
+              <tr><td>6</td><td>Gradient Boosting</td><td>86.3%</td><td>89.0%</td><td>87.6%</td><td>87.5%</td><td>0.929</td><td>—</td></tr>
+              <tr><td>7</td><td>Decision Tree</td><td>84.3%</td><td>83.7%</td><td>84.0%</td><td>83.2%</td><td>0.836</td><td>—</td></tr>
+              <tr><td>8</td><td>Naive Bayes</td><td>82.4%</td><td>81.0%</td><td>81.7%</td><td>80.4%</td><td>0.883</td><td>—</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <p>CardioRisk Clinical Assessment System · Academic Portfolio · Not a licensed medical device</p>
+        <p>Tanish Sanghavi · Random Forest · UCI Heart Disease Dataset</p>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="gauge.js"></script>
+<script src="app.js"></script>
+<script>document.addEventListener('DOMContentLoaded',function(){initTheme();injectSidebar('methodology');checkApiStatus('api-dot');});</script>
+</body>
+</html>
