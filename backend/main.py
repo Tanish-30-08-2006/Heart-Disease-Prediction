@@ -64,9 +64,7 @@ FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5500")
 ALLOWED_ORIGINS = [FRONTEND_URL]
 if "localhost" in FRONTEND_URL or "127.0.0.1" in FRONTEND_URL:
     ALLOWED_ORIGINS += [
-        "http://localhost:5500",
-        "http://127.0.0.1:5500",
-        "http://localhost:3000",   # If you ever test with a dev server
+        "https://cardiorisk-prediction.vercel.app"
     ]
 
 print(f"✓ CORS configured. Allowed origins: {ALLOWED_ORIGINS}")
