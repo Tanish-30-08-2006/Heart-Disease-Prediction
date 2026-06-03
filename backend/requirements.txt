@@ -1,0 +1,20 @@
+# backend/requirements.txt
+# Pinned for Python 3.11 on Render.
+#
+# CRITICAL WARNING: Do NOT upgrade scikit-learn without retraining and
+# re-serialising all three joblib artifacts. joblib files are tied to the
+# scikit-learn version used during training. A version mismatch will cause
+# the server to fail to load the model at startup.
+
+fastapi==0.111.0
+uvicorn[standard]==0.29.0
+pydantic==2.7.1
+
+# ML stack — must match training environment exactly
+scikit-learn==1.4.2
+pandas==2.2.2
+numpy==1.26.4
+joblib==1.4.2
+
+# ASGI extras
+python-multipart==0.0.9
