@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="robots" content="noindex, nofollow"/>
+  <title>New Assessment — CardioRisk</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" id="sidebar"></aside>
+  <div class="main-content">
+
+    <div class="topbar">
+      <div>
+        <div class="topbar-title">New Assessment</div>
+        <div class="topbar-subtitle">Patient Clinical Data Entry</div>
+      </div>
+      <div class="topbar-right">
+        <span class="topbar-badge">Academic Tool</span>
+        <div class="api-status-dot" id="api-dot"></div>
+      </div>
+    </div>
+
+    <div class="page-content">
+      <div class="page-header">
+        <div class="page-eyebrow"><span class="eyebrow-dot"></span> Step 1 of 1 · All 11 fields required</div>
+        <h1>Patient Clinical Data Entry</h1>
+        <p>Enter measured parameters from the patient's clinical workup. Reference ranges are shown alongside each field. The model applies a 35% medical safety threshold.</p>
+      </div>
+
+      <div class="grid-40-60">
+
+        <!-- Left: Assessment Context Panel -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-blue">📋</div>
+              <div class="card-header-text">
+                <h3>Assessment Context</h3>
+                <p>Reference information for this session</p>
+              </div>
+            </div>
+            <div class="card-body" style="display:flex;flex-direction:column;gap:12px;">
+              <div>
+                <div style="font-size:0.72rem;font-weight:500;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Assessment ID</div>
+                <div class="chip chip-grey" id="assessment-id" style="font-family:var(--font-mono);font-size:0.72rem;display:inline-block;"></div>
+              </div>
+              <div>
+                <div style="font-size:0.72rem;font-weight:500;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;margin-bottom:4px;">Date &amp; Time</div>
+                <div style="font-family:var(--font-mono);font-size:0.78rem;color:var(--text-2);" id="assessment-time"></div>
+              </div>
+              <div>
+                <label style="font-size:0.72rem;font-weight:500;color:var(--text-3);text-transform:uppercase;letter-spacing:0.06em;display:block;margin-bottom:6px;">Clinician Note (optional)</label>
+                <textarea id="clinician-note" class="form-control" rows="3" placeholder="Internal notes — not sent to API..." style="resize:vertical;font-size:0.82rem;"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-teal">✓</div>
+              <div class="card-header-text">
+                <h3>Form Completion</h3>
+                <p>Live field validation checklist</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div id="checklist" style="display:flex;flex-direction:column;gap:6px;font-size:0.78rem;"></div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-amber">⚙</div>
+              <div class="card-header-text">
+                <h3>Threshold Note</h3>
+                <p>Classification methodology</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <p style="font-size:0.8rem;color:var(--text-2);line-height:1.7;">
+                This model uses a <strong>35% classification threshold</strong> instead of the
+                standard 50%. In cardiac screening, missing a sick patient (False Negative)
+                carries higher clinical cost than a false alarm. Lowering the threshold
+                increases Recall from 89.2% → 91.2%.
+              </p>
+              <div class="chip-row" style="margin-top:10px;">
+                <span class="chip chip-green">Recall: 91.2%</span>
+                <span class="chip chip-amber">Threshold: 35%</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Live Deficit Compute -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-purple">⚡</div>
+              <div class="card-header-text">
+                <h3>Live Computations</h3>
+                <p>Auto-calculated from your inputs</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div id="live-maxhr" class="live-compute visible" style="display:block;">
+                Enter Age and MaxHR above to see the chronotropic deficit.
+              </div>
+              <div style="margin-top:10px;font-size:0.75rem;color:var(--text-4);font-family:var(--font-mono);">
+                Formula: MaxHR Deficit = (220 − Age) − Actual MaxHR
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right: The Form -->
+        <div style="display:flex;flex-direction:column;gap:16px;">
+
+          <!-- Demographics -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-blue">👤</div>
+              <div class="card-header-text">
+                <h3>Demographics</h3>
+                <p>Basic patient identifiers</p>
+              </div>
+            </div>
+            <div class="card-body">
+
+              <div class="form-row">
+                <div class="form-row-left">
+                  <label class="form-label" for="age">
+                    Patient Age
+                    <span class="ref-chip">Normal: 20–90</span>
+                  </label>
+                  <div class="form-hint">Years · Plausible range: 1–120</div>
+                  <span class="field-error" id="age-error">Enter valid age (1–120).</span>
+                </div>
+                <div class="form-row-right">
+                  <input type="number" id="age" class="form-control" min="1" max="120" placeholder="e.g. 54"/>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-row-left">
+                  <label class="form-label" for="sex">Biological Sex</label>
+                  <div class="form-hint">As recorded at time of study</div>
+                  <span class="field-error" id="sex-error">Please select.</span>
+                </div>
+                <div class="form-row-right">
+                  <select id="sex" class="form-control">
+                    <option value="" disabled selected>— Select —</option>
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Symptoms -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-red">🫀</div>
+              <div class="card-header-text">
+                <h3>Symptom Assessment</h3>
+                <p>Chest pain characterisation per Diamond-Forrester criteria</p>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="form-row">
+                <div class="form-row-left">
+                  <label class="form-label" for="chest-pain-type">Chest Pain Classification</label>
+                  <div class="form-hint">ACC/AHA classification</div>
+                  <span class="field-error" id="cpt-error">Please select.</span>
+                </div>
+                <div class="form-row-right">
+                  <select id="chest-pain-type" class="form-control">
+                    <option value="" disabled selected>— Select —</option>
+                    <option value="TA">Typical Angina (TA)</option>
+                    <option value="ATA">Atypical Angina (ATA)</option>
+                    <option value="NAP">Non-Anginal Pain (NAP)</option>
+                    <option value="ASY">Asymptomatic (ASY)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Vitals -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-teal">📊</div>
+              <div class="card-header-text">
+                <h3>Haemodynamic &amp; Metabolic</h3>
+                <p>Resting clinical measurements</p>
+              </div>
+            </div>
+            <div class="card-body">
+
+              <div class="form-row">
+                <div class="form-row-left">
+                  <label class="form-label" for="resting-bp">
+                    Resting Blood Pressure
+                    <span class="ref-chip">Normal &lt;120</span>
+                  </label>
+                  <div class="form-hint">mmHg · Stage 2 HTN: ≥140</div>
+                  <span class="field-error" id="rbp-error">Enter valid BP (60–250 mmHg).</span>
+                </div>
+                <div class="form-row-right">
+                  <input type="number" id="resting-bp" class="form-control" min="60" max="250" placeholder="e.g. 128"/>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-row-left">
+                  <label class="form-label" for="cholesterol">
+                    Serum Cholesterol
+                    <span class="ref-chip">Desirable &lt;200</span>
+                  </label>
+                  <div class="form-hint">mg/dL · Borderline: 200–239 · High: ≥240</div>
+                  <span class="field-error" id="chol-error">Enter valid value (50–700 mg/dL).</span>
+                </div>
+                <div class="form-row-right">
+                  <input type="number" id="cholesterol" class="form-control" min="50" max="700" placeholder="e.g. 245"/>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-row-left">
+                  <label class="form-label" for="fasting-bs">Fasting Blood Sugar &gt;120 mg/dL</label>
+                  <div class="form-hint">Diabetic risk indicator · Normal fasting: &lt;100</div>
+                  <span class="field-error" id="fbs-error">Please select.</span>
+                </div>
+                <div class="form-row-right">
+                  <select id="fasting-bs" class="form-control">
+                    <option value="" disabled selected>— Select —</option>
+                    <option value="1">Yes — Elevated</option>
+                    <option value="0">No — Normal range</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-row-left">
+                  <label class="form-label" for="resting-ecg">Resting ECG</label>
+                  <div class="form-hint">Per Minnesota Code classification</div>
+                  <span class="field-error" id="ecg-error">Please select.</span>
+                </div>
+                <div class="form-row-right">
+                  <select id="resting-ecg" class="form-control">
+                    <option value="" disabled selected>— Select —</option>
+                    <option value="Normal">Normal</option>
+                    <option value="ST">ST-T Wave Abnormality</option>
+                    <option value="LVH">LV Hypertrophy (Estes)</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Exercise Test -->
+          <div class="card">
+            <div class="card-header">
+              <div class="card-header-icon icon-green">🏃</div>
+              <div class="card-header-text">
+                <h3>Exercise Stress Test</h3>
+                <p>Treadmill / bicycle ergometry results</p>
+              </div>
+            </div>
+            <div class="card-body">
+
+              <div class="form-row">
+                <div class="form-row-left">
+                  <label class="form-label" for="max-hr">
+                    Maximum Heart Rate
+                    <span class="ref-chip">Age-pred: 220−Age</span>
+                  </label>
+                  <div class="form-hint">bpm · Low values = impaired chronotropic response</div>
+                  <span class="field-error" id="maxhr-error">Enter valid HR (50–250 bpm).</span>
+                </div>
+                <div class="form-row-right">
+                  <input type="number" id="max-hr" class="form-control" min="50" max="250" placeholder="e.g. 147"/>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-row-left">
+                  <label class="form-label" for="exercise-angina">Exercise-Induced Angina</label>
+                  <div class="form-hint">Positive = coronary supply-demand mismatch</div>
+                  <span class="field-error" id="ea-error">Please select.</span>
+                </div>
+                <div class="form-row-right">
+                  <select id="exercise-angina" class="form-control">
+                    <option value="" disabled selected>— Select —</option>
+                    <option value="1">Yes — Chest pain during exercise</option>
+                    <option value="0">No — No angina during exercise</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-row-left">
+                  <label class="form-label" for="oldpeak">
+                    ST Depression (Oldpeak)
+                    <span class="ref-chip">Normal: ≤1mm</span>
+                  </label>
+                  <div class="form-hint">mm · Relative to rest · &gt;2mm = strongly positive</div>
+                  <span class="field-error" id="op-error">Enter valid value (−5 to 10).</span>
+                </div>
+                <div class="form-row-right">
+                  <input type="number" id="oldpeak" class="form-control" step="0.1" min="-5" max="10" placeholder="e.g. 1.4"/>
+                </div>
+              </div>
+
+              <div class="form-row">
+                <div class="form-row-left">
+                  <label class="form-label" for="st-slope">ST Segment Slope</label>
+                  <div class="form-hint">Direction at peak exercise · Down = highest risk</div>
+                  <span class="field-error" id="st-error">Please select.</span>
+                </div>
+                <div class="form-row-right">
+                  <select id="st-slope" class="form-control">
+                    <option value="" disabled selected>— Select —</option>
+                    <option value="Up">Upsloping — Favourable</option>
+                    <option value="Flat">Flat — Intermediate</option>
+                    <option value="Down">Downsloping — Highest risk</option>
+                  </select>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Submit -->
+          <div class="card">
+            <div class="card-body" style="display:flex;flex-direction:column;gap:12px;">
+              <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px;">
+                <div>
+                  <div style="font-size:0.8rem;font-weight:500;color:var(--text-2);">Ready to submit?</div>
+                  <div style="font-family:var(--font-mono);font-size:0.7rem;color:var(--text-4);">All 11 parameters required · Threshold: 35%</div>
+                </div>
+                <div style="display:flex;gap:10px;align-items:center;">
+                  <a href="index.html" class="btn btn-outline">← Dashboard</a>
+                  <button id="submit-btn" class="btn btn-primary btn-lg" onclick="submitAssessment()">
+                    ⚕ &nbsp;Run Cardiac Risk Assessment
+                  </button>
+                </div>
+              </div>
+              <div id="cold-notice" class="notice-bar notice-amber">
+                <div class="spinner"></div>
+                <span>Initialising inference server — first request may take up to 60 seconds on Render's free tier. Please wait.</span>
+              </div>
+              <div id="error-notice" class="notice-bar notice-red"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="page-footer">
+        <p>CardioRisk · Academic Portfolio · Not a licensed medical device</p>
+        <p>Random Forest · 11 Clinical Parameters · 35% Safety Threshold</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="gauge.js"></script>
+<script src="app.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    initTheme();
+    injectSidebar('assessment');
+    checkApiStatus('api-dot');
+    initAssessmentPage();
+  });
+</script>
+</body>
+</html>
