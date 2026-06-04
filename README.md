@@ -78,13 +78,13 @@ Trained on the UCI Heart Disease Dataset across 4 Jupyter Notebooks. Deployed as
 
 **Target Distribution:**
 
-![Target Variable Distribution](images/eda_target_distribution.png)
+<img src="images-recordings/figures/target_variable_distribution.png" width="350" alt="Target Variable Distribution">
 
 - 55.3% Sick / 44.7% Healthy. Acceptable class balance — no SMOTE required.
 
 **Univariate — Quantitative:**
 
-![Quantitative Distribution Plots](images/eda_quantitative_distributions.png)
+<img src="images-recordings/figures/univariate_quantitative_distribution.png" width="450" alt="Quantitative Distribution Plots">
 
 - `RestingBP`: 1 row with value 0. Anomaly.
 - `Cholesterol`: 172 rows with value 0. Anomaly.
@@ -93,21 +93,21 @@ Trained on the UCI Heart Disease Dataset across 4 Jupyter Notebooks. Deployed as
 
 **Univariate — Categorical:**
 
-![Categorical Distribution Plots](images/eda_categorical_distributions.png)
+<img src="images-recordings/figures/univariate_categorical_distribution.png" width="450" alt="Categorical Distribution Plots">
 
 - Sex: ~79% Male. Real-world recruitment bias from source studies.
 - ASY is the most frequent `ChestPainType`. Flat is most common `ST_Slope`.
 
 **Bivariate — Categorical vs. Target:**
 
-![Categorical Bivariate Countplots](images/eda_categorical_bivariate.png)
+<img src="images-recordings/figures/bivariate_categorical_distribution.png" width="450" alt="Categorical Bivariate Countplots">
 
 - ASY chest pain, Male sex, ExerciseAngina=Y, ST_Slope Flat/Down → strongly associated with HeartDisease=1.
 - RestingECG → low discriminative power vs. target.
 
 **Bivariate — Quantitative vs. Target (Boxplots):**
 
-![Quantitative Bivariate Boxplots](images/eda_quantitative_bivariate.png)
+<img src="images-recordings/figures/bivariate_quantitative_distribution.png" width="450" alt="Quantitative Bivariate Boxplots">
 
 - `MaxHR`: Healthy 140–160 bpm. Sick below 140 bpm. Clear separation.
 - `Oldpeak`: Healthy near 0. Sick 0–3+. Clear separation.
@@ -116,7 +116,7 @@ Trained on the UCI Heart Disease Dataset across 4 Jupyter Notebooks. Deployed as
 
 **Correlation Heatmap:**
 
-![Correlation Heatmap](images/correlation_heatmap.png)
+<img src="images-recordings/figures/correlation_heatmap.png" width="350" alt="Correlation Heatmap">
 
 | Feature      | Correlation with Target |
 |--------------|------------------------|
@@ -140,8 +140,8 @@ Trained on the UCI Heart Disease Dataset across 4 Jupyter Notebooks. Deployed as
 | `Cholesterol`| 172       | 18.7%        | Replaced with mean of non-zero rows: **239.68 mg/dL** |
 | `RestingBP`  | 1         | 0.1%         | Replaced with mean of non-zero rows: **132.57 mmHg**  |
 
-![Before Imputation](images/cleaning_before_imputation.png)
-![After Imputation](images/cleaning_after_imputation.png)
+<img src="images-recordings/figures/before_imputation.png" width="250" alt="Before Imputation">
+<img src="images-recordings/figures/after_imputation.png" width="250" alt="After Imputation">
 
 - Post-imputation histograms confirmed normal distribution shape preserved for both columns.
 - Dropping 172 rows was not viable on a 918-row medical dataset.
@@ -306,7 +306,7 @@ Four tests run on `X_train` only. Drop rule: **2 or more strikes = dropped.**
 
 ### Final Model (35% Threshold)
 
-![Final Confusion Matrix](images/final_confusion_matrix.png)
+<img src="images-recordings/figures/final_confusion_matrix.png" width="250" alt="Final Confusion Matrix">
 
 | Accuracy | Recall | Precision | F1-Score | ROC-AUC |
 |----------|--------|-----------|----------|---------|
