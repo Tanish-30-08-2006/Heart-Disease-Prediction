@@ -41,7 +41,7 @@ Trained on the UCI Heart Disease Dataset across 4 Jupyter Notebooks. Deployed as
 
 ## 2. Application Demonstration
 
-![Website Demo Recording](images/demo_recording.gif)
+<video src="images-recordings/app_recording.mp4" width="100%" controls autoplay loop muted></video>
 
 - Patient intake form with live field validation and cold-start detection.
 - Results page renders risk gauge, probability %, feature importance chart, and clinical interpretation.
