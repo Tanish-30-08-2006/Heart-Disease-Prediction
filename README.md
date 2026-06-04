@@ -41,7 +41,9 @@ Trained on the UCI Heart Disease Dataset across 4 Jupyter Notebooks. Deployed as
 
 ## 2. Application Demonstration
 
-<video src="images-recordings/app_recording.mp4" width="100%" controls autoplay loop muted></video>
+*(Note: The video below is a 48MB high-quality MP4. It may take a few seconds to buffer depending on your connection. If it does not load, [click here to download or view it directly](https://github.com/Tanish-30-08-2006/Heart-Disease-Prediction/raw/dev/images-recordings/app_recording.mp4).)*
+
+<video src="https://github.com/Tanish-30-08-2006/Heart-Disease-Prediction/raw/dev/images-recordings/app_recording.mp4" width="100%" controls autoplay loop muted></video>
 
 - Patient intake form with live field validation and cold-start detection.
 - Results page renders risk gauge, probability %, feature importance chart, and clinical interpretation.
