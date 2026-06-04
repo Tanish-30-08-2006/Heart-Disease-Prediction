@@ -299,3 +299,55 @@ select.form-control {
 @media (max-width: 1024px) {
   .panel-grid-4, .panel-grid-2 { grid-template-columns: 1fr; }
 }
+
+
+/* Interpretation Cards */
+.interp-section {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+  position: relative;
+  overflow: hidden;
+}
+
+.interp-section h4 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.interp-section p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.interp-section p strong {
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+/* Left Border Accents */
+.interp-section::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+}
+
+.interp-section.warning::before {
+  background: #EF4444; /* Red accent */
+}
+
+.interp-section.positive::before {
+  background: #10B981; /* Green accent */
+}
+
+.interp-section.amber::before {
+  background: #F59E0B; /* Amber accent */
+}

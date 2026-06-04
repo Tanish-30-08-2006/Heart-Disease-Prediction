@@ -474,7 +474,7 @@ async function submitAssessment() {
     sessionStorage.setItem('assessment_input',  JSON.stringify(formSnapshot));
     sessionStorage.setItem('assessment_time',   new Date().toISOString());
 
-    window.location.href = 'results.html';
+    window.location.href = 'index.html';
 
   } catch (err) {
     clearTimeout(coldTimer);
@@ -493,37 +493,54 @@ async function submitAssessment() {
 
 
 // =============================================================================
-// 4. RESULTS PAGE (results.html)
+// 4. RESULTS VIEW (Injected into Dashboard)
 // =============================================================================
-function initResultsPage() {
-  const content = document.getElementById('results-content');
-  const noData  = document.getElementById('no-data');
-  if (!content) return;
+function initDashboard() {
+  // First, initialize the default dashboard charts if we are in default state
+  const defaultDashboard = document.getElementById('dashboard-default');
+  const resultsDashboard = document.getElementById('dashboard-results');
+  
+  if (!defaultDashboard || !resultsDashboard) return;
 
   const resultRaw = sessionStorage.getItem('assessment_result');
   const inputRaw  = sessionStorage.getItem('assessment_input');
-  const timeRaw   = sessionStorage.getItem('assessment_time');
 
   if (!resultRaw || !inputRaw) {
-    if (noData)  noData.style.display  = 'block';
-    if (content) content.style.display = 'none';
+    // Show default dashboard
+    defaultDashboard.style.display = 'block';
+    resultsDashboard.style.display = 'none';
+    
+    // Render default gauge and chart (dummy/placeholder data)
+    drawGauge('dashboard-gauge', 0, false, 'No Assessment Yet');
+    renderImportanceChart('importance-chart', [
+      {"feature":"ST_Slope_Up","importance":0.217352},
+      {"feature":"MaxHR","importance":0.129735},
+      {"feature":"Oldpeak","importance":0.108998},
+      {"feature":"BP_Chol_Risk","importance":0.089704},
+      {"feature":"ExerciseAngina","importance":0.08224}
+    ]);
     return;
   }
 
-  if (noData)  noData.style.display  = 'none';
-  if (content) content.style.display = 'block';
+  // Show active results dashboard
+  defaultDashboard.style.display = 'none';
+  resultsDashboard.style.display = 'block';
 
   const result = JSON.parse(resultRaw);
   const input  = JSON.parse(inputRaw);
-  const time   = timeRaw ? new Date(timeRaw) : new Date();
 
-  renderTimestamp(time);
-  renderVerdictBanner(result);
   renderResultGauge(result);
   renderPatientTable(input);
   renderResultsImportanceChart(result.feature_importances);
   renderFeatureLegend(result.feature_importances);
   renderInterpretation(result);
+}
+
+function clearResults() {
+  sessionStorage.removeItem('assessment_result');
+  sessionStorage.removeItem('assessment_input');
+  sessionStorage.removeItem('assessment_time');
+  window.location.reload();
 }
 
 function renderTimestamp(time) {
@@ -607,7 +624,7 @@ function renderPatientTable(input) {
 
 function renderResultsImportanceChart(importances) {
   if (!importances || !importances.length) return;
-  renderImportanceChart('importance-chart', importances);
+  renderImportanceChart('results-importance-chart', importances);
 }
 
 function renderFeatureLegend(importances) {
