@@ -37,7 +37,6 @@
           <!-- Appearance -->
           <div class="card">
             <div class="card-header">
-              <div class="card-header-icon icon-purple">🎨</div>
               <div class="card-header-text">
                 <h3>Appearance</h3>
                 <p>Theme and display preferences</p>
@@ -45,25 +44,7 @@
             </div>
             <div class="card-body">
 
-              <div class="setting-row">
-                <div>
-                  <div class="setting-label">Dark Mode</div>
-                  <div class="setting-desc">Switch between light whitish-navy and dark navy theme</div>
-                  <!-- Live preview swatches -->
-                  <div style="display:flex;gap:8px;margin-top:8px;">
-                    <div style="width:48px;height:28px;border-radius:4px;background:#eef2f7;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;">
-                      <div style="width:20px;height:10px;border-radius:2px;background:#1a2332;"></div>
-                    </div>
-                    <div style="width:48px;height:28px;border-radius:4px;background:#0a0e1a;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;">
-                      <div style="width:20px;height:10px;border-radius:2px;background:#2563eb;"></div>
-                    </div>
-                  </div>
-                </div>
-                <label class="toggle">
-                  <input type="checkbox" id="dark-mode-toggle" onchange="setDarkMode(this.checked)"/>
-                  <span class="toggle-slider"></span>
-                </label>
-              </div>
+
 
               <div class="setting-row">
                 <div>
@@ -84,7 +65,6 @@
           <!-- Session Management -->
           <div class="card">
             <div class="card-header">
-              <div class="card-header-icon icon-amber">🗂</div>
               <div class="card-header-text">
                 <h3>Session Data</h3>
                 <p>Manage stored assessment results</p>
@@ -102,15 +82,7 @@
                 </button>
               </div>
 
-              <div class="setting-row">
-                <div>
-                  <div class="setting-label">Theme Preference</div>
-                  <div class="setting-desc">Stored in localStorage — persists across sessions</div>
-                </div>
-                <button class="btn btn-outline" onclick="clearTheme()" style="font-size:0.8rem;padding:6px 14px;">
-                  Reset
-                </button>
-              </div>
+
 
               <div class="setting-row" style="border-bottom:none;">
                 <div>
@@ -133,7 +105,6 @@
           <!-- API Status -->
           <div class="card">
             <div class="card-header">
-              <div class="card-header-icon icon-green">📡</div>
               <div class="card-header-text">
                 <h3>API Status Monitor</h3>
                 <p>Live connection to Render backend</p>
@@ -179,7 +150,6 @@
           <!-- Model Info -->
           <div class="card">
             <div class="card-header">
-              <div class="card-header-icon icon-blue">⚙</div>
               <div class="card-header-text">
                 <h3>Model Configuration</h3>
                 <p>Read-only — serialised artifacts</p>
@@ -208,7 +178,6 @@
           <!-- App Info -->
           <div class="card">
             <div class="card-header">
-              <div class="card-header-icon icon-teal">ℹ</div>
               <div class="card-header-text">
                 <h3>Application Info</h3>
                 <p>Version and deployment details</p>

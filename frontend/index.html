@@ -11,32 +11,29 @@
 <body>
 
 <!-- ── Disclaimer Modal ──────────────────────────────────────────────────── -->
-<div id="disclaimer-overlay">
-  <div class="disclaimer-modal">
-    <div class="disclaimer-eyebrow">⚠ Academic Portfolio Project — Important Notice</div>
+<div id="disclaimer-overlay" style="position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; background: rgba(15, 23, 42, 0.4); backdrop-filter: blur(4px); z-index: 9999; display: flex; align-items: center; justify-content: center; padding: 20px;">
+  <div class="disclaimer-modal" style="background:var(--bg-surface); padding: 2rem; border-radius: var(--radius-lg); max-width: 500px; width: 100%; max-height: 90vh; overflow-y: auto; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+    <div class="disclaimer-eyebrow" style="color: #EF4444; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">
+      <svg viewBox="0 0 24 24" style="width: 14px; height: 14px; display: inline; vertical-align: text-bottom; margin-right: 4px; stroke: #EF4444;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+      Academic Portfolio Project
+    </div>
     <h2>Terms of Use &amp; Clinical Disclaimer</h2>
-    <div class="disclaimer-body">
-      <p>
-        <strong>CardioRisk Clinical Assessment System</strong> is an academic portfolio project
-        built to demonstrate applied machine learning on clinical data. It is
-        <strong>NOT a licensed medical device</strong> and must not be used to make or
-        influence real patient care decisions.
+    <div class="disclaimer-body" style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6; margin-bottom: 1.5rem;">
+      <p style="margin-bottom: 0.75rem;">
+        <strong>CardioRisk Clinical Assessment System</strong> is an academic portfolio project built to demonstrate applied machine learning on clinical data. It is <strong>NOT a licensed medical device</strong> and must not be used to make or influence real patient care decisions.
+      </p>
+      <p style="margin-bottom: 0.75rem;">
+        The underlying Random Forest model was trained on the publicly available UCI Heart Disease Dataset (n=918) and has not undergone clinical validation, regulatory review, or peer-reviewed audit. Dashboard statistics marked "Demo Data" are synthetic and for visualisation purposes only.
       </p>
       <p>
-        The underlying Random Forest model was trained on the publicly available UCI Heart
-        Disease Dataset (n=918) and has not undergone clinical validation, regulatory review,
-        or peer-reviewed audit. Dashboard statistics marked "Demo Data" are synthetic and
-        for visualisation purposes only.
-      </p>
-      <p>
-        By proceeding, you confirm you understand these limitations and will not rely on
-        this tool for any clinical decision whatsoever.
+        By proceeding, you confirm you understand these limitations and will not rely on this tool for any clinical decision whatsoever.
       </p>
     </div>
-    <div class="disclaimer-footer">
-      <small>v1.0.0 · Random Forest · UCI Dataset · Threshold: 35%</small>
+    <div class="disclaimer-footer" style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border-subtle); padding-top: 1rem;">
+      <small style="color: var(--text-tertiary);">v1.0.0 · Threshold: 35%</small>
       <button class="btn btn-primary" onclick="acknowledgeDisclaimer()">
-        I Acknowledge &amp; Proceed →
+        I Acknowledge &amp; Proceed 
+        <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
       </button>
     </div>
   </div>
@@ -64,196 +61,119 @@
     <div class="page-content">
 
       <div class="page-header">
-        <div class="page-eyebrow"><span class="eyebrow-dot"></span> Overview</div>
+        <div class="page-eyebrow">
+          <svg viewBox="0 0 24 24" style="width: 14px; height: 14px; stroke: var(--text-secondary);"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          Overview
+        </div>
         <h1>Clinical Heart Disease Tracker</h1>
         <p>Academic ML project — Random Forest cardiac risk classifier. Demo data is synthetic; predictions use your trained model.</p>
       </div>
 
-      <!-- KPI Strip -->
-      <div class="kpi-grid">
-        <div class="kpi-card kpi-blue">
-          <div class="kpi-label">Model Accuracy</div>
-          <div class="kpi-value">88.0%</div>
-          <div class="kpi-sub">Test set, n=184 patients</div>
+      <!-- Row 1: KPI Strip -->
+      <div class="panel-grid-4" style="margin-bottom: 24px;">
+        <div class="card" style="padding: 24px;">
+          <span class="overline" style="color: var(--text-secondary); margin-bottom: 8px; display: block;">Model Accuracy</span>
+          <div style="font-size: 2.25rem; font-weight: 600; color: var(--text-primary); line-height: 1.2; letter-spacing: -0.02em;">88.0%</div>
+          <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px;">Test set, n=184 patients</div>
         </div>
-        <div class="kpi-card kpi-teal">
-          <div class="kpi-label">Recall (Sensitivity)</div>
-          <div class="kpi-value">97.1%</div>
-          <div class="kpi-sub">At 35% threshold</div>
+        <div class="card" style="padding: 24px;">
+          <span class="overline" style="color: var(--text-secondary); margin-bottom: 8px; display: block;">Recall (Sensitivity)</span>
+          <div style="font-size: 2.25rem; font-weight: 600; color: var(--text-primary); line-height: 1.2; letter-spacing: -0.02em;">97.1%</div>
+          <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px;">At 35% threshold</div>
         </div>
-        <div class="kpi-card kpi-purple">
-          <div class="kpi-label">Training Dataset</div>
-          <div class="kpi-value">918</div>
-          <div class="kpi-sub">UCI Heart Disease patients</div>
+        <div class="card" style="padding: 24px;">
+          <span class="overline" style="color: var(--text-secondary); margin-bottom: 8px; display: block;">Training Dataset</span>
+          <div style="font-size: 2.25rem; font-weight: 600; color: var(--text-primary); line-height: 1.2; letter-spacing: -0.02em;">918</div>
+          <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px;">UCI Heart Disease patients</div>
         </div>
-        <div class="kpi-card kpi-green">
-          <div class="kpi-label">ROC-AUC Score</div>
-          <div class="kpi-value">0.933</div>
-          <div class="kpi-sub">Random Forest baseline</div>
-        </div>
-      </div>
-
-      <!-- Row 2: Demo Patient + Risk Panel -->
-      <div class="grid-60-40 mt-5">
-
-        <!-- Demo Patient Overview -->
-        <div class="card">
-          <div class="card-header">
-            <div class="card-header-icon icon-teal">👤</div>
-            <div class="card-header-text">
-              <h3>Demo Patient Overview — Hardik Shah, 58, Male</h3>
-              <p>Synthetic data for visualisation only</p>
-            </div>
-            <div class="card-header-actions">
-              <span class="demo-chip">Demo Data</span>
-            </div>
-          </div>
-          <div class="card-body">
-            <p style="font-size:0.78rem;color:var(--text-3);margin-bottom:14px;">
-              Blood Pressure Trend — Last 6 Months (mmHg)
-            </p>
-            <div class="chart-wrap">
-              <canvas id="bp-chart"></canvas>
-            </div>
-            <p style="font-size:0.78rem;color:var(--text-3);margin:16px 0 10px;">
-              Cholesterol Readings (mg/dL)
-            </p>
-            <div class="chart-wrap">
-              <canvas id="chol-chart"></canvas>
-            </div>
-          </div>
-        </div>
-
-        <!-- Risk Panel -->
-        <div style="display:flex;flex-direction:column;gap:20px;">
-
-          <!-- Gauge Card -->
-          <div class="card">
-            <div class="card-header">
-              <div class="card-header-icon icon-red">♥</div>
-              <div class="card-header-text">
-                <h3>Last Prediction Result</h3>
-                <p>Run an assessment to populate this panel</p>
-              </div>
-            </div>
-            <div class="card-body" style="text-align:center;">
-              <div id="dashboard-gauge"></div>
-              <div class="chip-row" id="dashboard-chips" style="justify-content:center;"></div>
-              <a href="assessment.html" class="btn btn-primary btn-full" style="margin-top:16px;">
-                ⊕ &nbsp;Run New Assessment
-              </a>
-            </div>
-          </div>
-
-          <!-- Model Performance Card -->
-          <div class="card">
-            <div class="card-header">
-              <div class="card-header-icon icon-blue">📊</div>
-              <div class="card-header-text">
-                <h3>Model Performance</h3>
-                <p>Test set metrics (n=184)</p>
-              </div>
-            </div>
-            <div class="card-body">
-              <div class="metric-bar-row">
-                <span class="metric-bar-label">Recall</span>
-                <div class="metric-bar-outer"><div class="metric-bar-inner" style="width:91.2%;background:var(--green);"></div></div>
-                <span class="metric-bar-value">91.2%</span>
-              </div>
-              <div class="metric-bar-row">
-                <span class="metric-bar-label">Precision</span>
-                <div class="metric-bar-outer"><div class="metric-bar-inner" style="width:88%;background:var(--blue);"></div></div>
-                <span class="metric-bar-value">88.0%</span>
-              </div>
-              <div class="metric-bar-row">
-                <span class="metric-bar-label">F1 Score</span>
-                <div class="metric-bar-outer"><div class="metric-bar-inner" style="width:89.6%;background:var(--teal);"></div></div>
-                <span class="metric-bar-value">89.6%</span>
-              </div>
-              <div class="metric-bar-row">
-                <span class="metric-bar-label">Accuracy</span>
-                <div class="metric-bar-outer"><div class="metric-bar-inner" style="width:88%;background:var(--purple);"></div></div>
-                <span class="metric-bar-value">88.0%</span>
-              </div>
-              <div class="metric-bar-row">
-                <span class="metric-bar-label">ROC-AUC</span>
-                <div class="metric-bar-outer"><div class="metric-bar-inner" style="width:93.3%;background:var(--amber);"></div></div>
-                <span class="metric-bar-value">93.3%</span>
-              </div>
-            </div>
-          </div>
-
+        <div class="card" style="padding: 24px;">
+          <span class="overline" style="color: var(--text-secondary); margin-bottom: 8px; display: block;">ROC-AUC Score</span>
+          <div style="font-size: 2.25rem; font-weight: 600; color: var(--text-primary); line-height: 1.2; letter-spacing: -0.02em;">0.933</div>
+          <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 6px;">Random Forest baseline</div>
         </div>
       </div>
 
-      <!-- Row 3: Feature Importances + Quick Start -->
-      <div class="grid-60-40 mt-5">
-
+      <!-- Row 2: Full-Width Feature Chart -->
+      <div class="panel-grid-1" style="margin-bottom: 24px;">
         <div class="card">
-          <div class="card-header">
-            <div class="card-header-icon icon-purple">🎯</div>
+          <div class="card-header" style="padding: 32px 32px 0 32px; margin-bottom: 16px;">
             <div class="card-header-text">
+              <span class="overline">Global Interpretability</span>
               <h3>Top Feature Importances</h3>
-              <p>Random Forest Gini scores — extracted from trained model</p>
             </div>
           </div>
-          <div class="card-body">
-            <div class="chart-wrap-tall">
+          <div class="card-body" style="padding: 0 32px 32px 32px;">
+            <div class="chart-wrap" style="height: 350px;">
               <canvas id="importance-chart"></canvas>
             </div>
           </div>
         </div>
+      </div>
 
-        <div style="display:flex;flex-direction:column;gap:20px;">
-          <div class="card">
-            <div class="card-header">
-              <div class="card-header-icon icon-green">🚀</div>
-              <div class="card-header-text">
-                <h3>Quick Start</h3>
-                <p>Begin a new patient risk assessment</p>
-              </div>
-            </div>
-            <div class="card-body" style="display:flex;flex-direction:column;gap:12px;">
-              <p style="font-size:0.85rem;color:var(--text-2);line-height:1.7;">
-                Enter 11 clinical parameters — demographics, vitals, ECG, and exercise stress
-                test results — to receive an instant cardiac risk classification with
-                probability score and feature breakdown.
-              </p>
-              <div class="chip-row">
-                <span class="chip chip-blue">11 Parameters</span>
-                <span class="chip chip-teal">35% Threshold</span>
-                <span class="chip chip-green">Instant Result</span>
-              </div>
-              <a href="assessment.html" class="btn btn-primary btn-lg btn-full" style="margin-top:4px;">
-                ⊕ &nbsp;New Assessment →
-              </a>
-              <a href="methodology.html" class="btn btn-outline btn-full">
-                ⚙ &nbsp;View Methodology
-              </a>
+      <!-- Row 3: Metrics & System Info -->
+      <div class="panel-grid-2">
+        <!-- Left Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-header-text">
+              <span class="overline">Validation Metrics</span>
+              <h3>Model Evaluation Metrics</h3>
             </div>
           </div>
-
-          <div class="card">
-            <div class="card-header">
-              <div class="card-header-icon icon-amber">⚙</div>
-              <div class="card-header-text">
-                <h3>System Info</h3>
-                <p>Model configuration</p>
+          <div class="card-body">
+            <div style="display: flex; flex-direction: column; gap: 20px;">
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; width: 120px;">Recall</span>
+                <div class="progress-track" style="flex: 1; margin: 0 16px;"><div class="progress-fill" style="width:97.1%;"></div></div>
+                <span style="font-size: 0.9rem; font-weight: 600; width: 60px; text-align: right;">97.1%</span>
               </div>
-            </div>
-            <div class="card-body">
-              <table class="data-table">
-                <tr><td>Algorithm</td><td>Random Forest</td></tr>
-                <tr><td>Trees</td><td>n_estimators = 100</td></tr>
-                <tr><td>Threshold</td><td>35% (medical safety)</td></tr>
-                <tr><td>Dataset</td><td>UCI Heart Disease</td></tr>
-                <tr><td>Training n</td><td>734 patients</td></tr>
-                <tr><td>Test n</td><td>184 patients</td></tr>
-              </table>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; width: 120px;">Precision</span>
+                <div class="progress-track" style="flex: 1; margin: 0 16px;"><div class="progress-fill" style="width:80.5%;"></div></div>
+                <span style="font-size: 0.9rem; font-weight: 600; width: 60px; text-align: right;">80.5%</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; width: 120px;">F1-Score</span>
+                <div class="progress-track" style="flex: 1; margin: 0 16px;"><div class="progress-fill" style="width:88.0%;"></div></div>
+                <span style="font-size: 0.9rem; font-weight: 600; width: 60px; text-align: right;">88.0%</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; width: 120px;">Accuracy</span>
+                <div class="progress-track" style="flex: 1; margin: 0 16px;"><div class="progress-fill" style="width:88.0%;"></div></div>
+                <span style="font-size: 0.9rem; font-weight: 600; width: 60px; text-align: right;">88.0%</span>
+              </div>
+              <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.9rem; color: var(--text-secondary); font-weight: 500; width: 120px;">ROC-AUC</span>
+                <div class="progress-track" style="flex: 1; margin: 0 16px;"><div class="progress-fill" style="width:93.3%;"></div></div>
+                <span style="font-size: 0.9rem; font-weight: 600; width: 60px; text-align: right;">0.933</span>
+              </div>
             </div>
           </div>
         </div>
 
+        <!-- Right Card -->
+        <div class="card">
+          <div class="card-header">
+            <div class="card-header-text">
+              <span class="overline">Architecture</span>
+              <h3>System Information</h3>
+            </div>
+          </div>
+          <div class="card-body" style="padding:0;">
+            <table class="data-table">
+              <tr><td>Algorithm</td><td>Random Forest</td></tr>
+              <tr><td>Trees</td><td>n_estimators = 100</td></tr>
+              <tr><td>Dataset</td><td>UCI Heart Disease</td></tr>
+              <tr><td>Threshold</td><td>35% (medical safety)</td></tr>
+              <tr><td>Backend Status</td><td>
+                <div style="display:flex;align-items:center;gap:8px;">
+                  <div class="api-status-dot" id="api-status-inline" style="width:10px;height:10px;"></div>
+                  <span id="api-status-text" style="font-size: 0.85rem;">Checking...</span>
+                </div>
+              </td></tr>
+            </table>
+          </div>
+        </div>
       </div>
 
       <div class="page-footer">
@@ -269,11 +189,14 @@
 <script src="app.js"></script>
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    initTheme();
-    injectSidebar('dashboard');
-    checkApiStatus('api-dot');
-    initDisclaimer();
-    initDashboard();
+    if(typeof initTheme === 'function') initTheme();
+    if(typeof injectSidebar === 'function') injectSidebar('dashboard');
+    if(typeof checkApiStatus === 'function') {
+      checkApiStatus('api-dot');
+      checkApiStatus('api-status-inline');
+    }
+    if(typeof initDisclaimer === 'function') initDisclaimer();
+    if(typeof initDashboard === 'function') initDashboard();
   });
 </script>
 </body>

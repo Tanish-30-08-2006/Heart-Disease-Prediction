@@ -204,19 +204,7 @@ function renderImportanceChart(canvasId, importances) {
   const values = top10.map(f => (f.importance * 100).toFixed(2));
   const maxVal = Math.max(...values.map(Number));
 
-  const colors = top10.map(f => {
-    const info = getFeatureInfo(f.feature);
-    const colorMap = {
-      red:    'rgba(220,38,38,0.75)',
-      green:  'rgba(22,163,74,0.75)',
-      amber:  'rgba(217,119,6,0.75)',
-      blue:   'rgba(37,99,235,0.75)',
-      teal:   'rgba(14,165,233,0.75)',
-      purple: 'rgba(124,58,237,0.75)',
-      grey:   'rgba(100,116,139,0.5)',
-    };
-    return colorMap[info.color] || colorMap.grey;
-  });
+  const colors = top10.map(() => '#0EA5E9');
 
   // Destroy existing chart instance if re-rendering
   const existing = Chart.getChart(canvas);
@@ -249,12 +237,12 @@ function renderImportanceChart(canvasId, importances) {
       },
       scales: {
         x: {
-          grid: { color: getComputedStyle(document.documentElement).getPropertyValue('--border') || 'rgba(0,0,0,0.05)' },
-          ticks: { color: '#64748b', font: { family: "'JetBrains Mono', monospace", size: 10 }, callback: v => v + '%' },
+          grid: { color: 'rgba(0,0,0,0.05)' },
+          ticks: { color: '#64748B', font: { family: "'JetBrains Mono', monospace", size: 11 }, callback: v => v + '%' },
         },
         y: {
           grid: { display: false },
-          ticks: { color: '#334155', font: { family: "'Plus Jakarta Sans', sans-serif", size: 11 } }
+          ticks: { color: '#0F172A', font: { family: "'Inter', sans-serif", size: 12, weight: 500 } }
         }
       }
     }
@@ -348,11 +336,11 @@ function buildChecklist() {
     const el    = document.getElementById(f.id);
     const done  = el && el.value !== '';
     const color = done ? 'var(--green)' : 'var(--text-4)';
-    const icon  = done ? '✓' : '○';
+    const icon  = done ? '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>' : '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle></svg>';
     return `
       <div style="display:flex;align-items:center;gap:8px;color:${color};transition:color 0.2s;">
-        <span style="font-family:var(--font-mono);font-size:0.78rem;width:14px;">${icon}</span>
-        <span style="font-size:0.78rem;">${f.label}</span>
+        <span style="display:flex;align-items:center;width:14px;height:14px;">${icon}</span>
+        <span style="font-size:0.85rem;font-weight:500;">${f.label}</span>
       </div>
     `;
   }).join('');
@@ -369,7 +357,7 @@ function updateLiveCompute() {
     const expected = 220 - age;
     const deficit  = expected - maxHR;
     const pct      = ((deficit / expected) * 100).toFixed(1);
-    const severity = deficit > 40 ? '⚠ Severely impaired' : deficit > 20 ? 'Mildly impaired' : '✓ Normal range';
+    const severity = deficit > 40 ? '<svg viewBox="0 0 24 24" style="width:14px;height:14px;margin-bottom:-2px;stroke:#EF4444;"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Severely impaired' : deficit > 20 ? 'Mildly impaired' : '<svg viewBox="0 0 24 24" style="width:14px;height:14px;margin-bottom:-2px;stroke:#10B981;"><polyline points="20 6 9 17 4 12"></polyline></svg> Normal range';
     el.innerHTML = `
       Expected MaxHR: <strong>${expected} bpm</strong> &nbsp;|&nbsp;
       Actual: <strong>${maxHR} bpm</strong> &nbsp;|&nbsp;
@@ -499,7 +487,7 @@ async function submitAssessment() {
     if (errEl) { errEl.textContent = msg; errEl.classList.add('visible'); }
 
     btn.disabled  = false;
-    btn.innerHTML = '⚕ &nbsp;Run Cardiac Risk Assessment';
+    btn.innerHTML = '<svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"></path></svg> &nbsp;Run Cardiac Risk Assessment';
   }
 }
 
