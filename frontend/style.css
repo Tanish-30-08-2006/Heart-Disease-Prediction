@@ -351,3 +351,102 @@ select.form-control {
 .interp-section.amber::before {
   background: #F59E0B; /* Amber accent */
 }
+
+/* ── Horizontal Pipeline Component ────────────────────────────────────────── */
+.pipeline-horizontal-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  overflow-x: auto;
+  padding: 12px 4px;
+  gap: 32px;
+  /* Sleek custom scrollbar */
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-subtle) transparent;
+}
+
+.pipeline-horizontal-container::-webkit-scrollbar {
+  height: 6px;
+}
+.pipeline-horizontal-container::-webkit-scrollbar-track {
+  background: transparent;
+}
+.pipeline-horizontal-container::-webkit-scrollbar-thumb {
+  background-color: var(--border-subtle);
+  border-radius: 10px;
+}
+
+.pipeline-node {
+  position: relative;
+  flex: 0 0 auto; /* Prevent squishing */
+  background: #FFFFFF;
+  border-radius: 8px;
+  border: 1px solid #EAEAEA;
+  padding: 16px 24px;
+  min-width: 180px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.03);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.pipeline-node:hover {
+  transform: translateY(-2px);
+  border-color: var(--accent-clinical);
+  box-shadow: 0 4px 12px rgba(14, 165, 233, 0.1);
+}
+
+.node-step {
+  display: block;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.node-title {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.node-sub {
+  font-size: 0.75rem;
+  color: var(--text-secondary);
+}
+
+/* The Connectors (Arrows) */
+.pipeline-node:not(.final-node)::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -32px; /* Matches the gap of 32px */
+  width: 32px;
+  height: 2px;
+  background-color: #EAEAEA;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+
+/* Arrowhead */
+.pipeline-node:not(.final-node)::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: -32px;
+  width: 0;
+  height: 0;
+  border-style: solid;
+  border-width: 4px 0 4px 6px;
+  border-color: transparent transparent transparent #EAEAEA;
+  transform: translateY(-50%);
+  z-index: 2;
+}
+
+/* Optional highlight for final model steps */
+.pipeline-node.highlight-node {
+  background: var(--bg-app);
+  border-color: var(--border-subtle);
+}

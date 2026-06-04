@@ -35,27 +35,58 @@
             <p>From UCI raw data to live API prediction</p>
           </div>
         </div>
-        <div class="card-body">
-          <div class="pipeline-flow" style="gap:4px;flex-wrap:wrap;row-gap:12px;">
-            <div class="pipeline-step"><div class="pipeline-box">Raw UCI Data</div></div>
-            <div class="pipeline-arrow">→</div>
-            <div class="pipeline-step"><div class="pipeline-box">EDA</div></div>
-            <div class="pipeline-arrow">→</div>
-            <div class="pipeline-step"><div class="pipeline-box">Cleaning</div></div>
-            <div class="pipeline-arrow">→</div>
-            <div class="pipeline-step"><div class="pipeline-box">Encoding</div></div>
-            <div class="pipeline-arrow">→</div>
-            <div class="pipeline-step"><div class="pipeline-box">Feature Eng.</div></div>
-            <div class="pipeline-arrow">→</div>
-            <div class="pipeline-step"><div class="pipeline-box">80/20 Split</div></div>
-            <div class="pipeline-arrow">→</div>
-            <div class="pipeline-step"><div class="pipeline-box">StandardScaler</div></div>
-            <div class="pipeline-arrow">→</div>
-            <div class="pipeline-step highlight"><div class="pipeline-box">Random Forest</div></div>
-            <div class="pipeline-arrow">→</div>
-            <div class="pipeline-step"><div class="pipeline-box">35% Threshold</div></div>
-            <div class="pipeline-arrow">→</div>
-            <div class="pipeline-step highlight"><div class="pipeline-box">FastAPI Deploy</div></div>
+        <div class="card-body" style="padding: 32px 24px;">
+          <div class="pipeline-horizontal-container">
+            <div class="pipeline-node">
+              <span class="node-step">STEP 01</span>
+              <div class="node-title">Raw Data</div>
+              <div class="node-sub">918 Patients</div>
+            </div>
+            <div class="pipeline-node">
+              <span class="node-step">STEP 02</span>
+              <div class="node-title">Exploratory Data Analysis</div>
+              <div class="node-sub">EDA</div>
+            </div>
+            <div class="pipeline-node">
+              <span class="node-step">STEP 03</span>
+              <div class="node-title">Data Cleaning</div>
+              <div class="node-sub">Zero/Null Imputation</div>
+            </div>
+            <div class="pipeline-node">
+              <span class="node-step">STEP 04</span>
+              <div class="node-title">Feature Engineering</div>
+              <div class="node-sub">MaxHR Deficit, Senior Flag</div>
+            </div>
+            <div class="pipeline-node">
+              <span class="node-step">STEP 05</span>
+              <div class="node-title">Categorical Encoding</div>
+              <div class="node-sub">One-Hot &amp; Label</div>
+            </div>
+            <div class="pipeline-node">
+              <span class="node-step">STEP 06</span>
+              <div class="node-title">Data Splitting</div>
+              <div class="node-sub">80/20 Stratified</div>
+            </div>
+            <div class="pipeline-node">
+              <span class="node-step">STEP 07</span>
+              <div class="node-title">Feature Scaling</div>
+              <div class="node-sub">Z-Score Standardization</div>
+            </div>
+            <div class="pipeline-node highlight-node">
+              <span class="node-step">STEP 08</span>
+              <div class="node-title">Model Training</div>
+              <div class="node-sub">Random Forest</div>
+            </div>
+            <div class="pipeline-node highlight-node">
+              <span class="node-step">STEP 09</span>
+              <div class="node-title">Threshold Optimization</div>
+              <div class="node-sub">35% Clinical Boundary</div>
+            </div>
+            <div class="pipeline-node highlight-node final-node">
+              <span class="node-step">STEP 10</span>
+              <div class="node-title">Final Evaluation</div>
+              <div class="node-sub">Recall 98.0%</div>
+            </div>
           </div>
         </div>
       </div>
