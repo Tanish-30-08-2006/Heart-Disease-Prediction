@@ -140,7 +140,10 @@ Trained on the UCI Heart Disease Dataset across 4 Jupyter Notebooks. Deployed as
 | `Cholesterol`| 172       | 18.7%        | Replaced with mean of non-zero rows: **239.68 mg/dL** |
 | `RestingBP`  | 1         | 0.1%         | Replaced with mean of non-zero rows: **132.57 mmHg**  |
 
+### Before Imputation : 
 <img src="images-recordings/figures/before_imputation.png" width="250" alt="Before Imputation">
+
+### After Imputation :
 <img src="images-recordings/figures/after_imputation.png" width="250" alt="After Imputation">
 
 - Post-imputation histograms confirmed normal distribution shape preserved for both columns.

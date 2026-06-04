@@ -56,16 +56,16 @@ except FileNotFoundError as e:
 # changing the env variable every time.
 # -----------------------------------------------------------------------------
 
-FRONTEND_URL = os.getenv("FRONTEND_URL", "http://localhost:5500")
+FRONTEND_URL = os.getenv("FRONTEND_URL", "https://cardiorisk-prediction.vercel.app")
 
 # Build the allowed origins list
-# In production FRONTEND_URL will be the single Vercel URL.
-# Locally we also allow the alternate 127.0.0.1 form.
-ALLOWED_ORIGINS = [FRONTEND_URL]
-if "localhost" in FRONTEND_URL or "127.0.0.1" in FRONTEND_URL:
-    ALLOWED_ORIGINS += [
-        "https://cardiorisk-prediction.vercel.app"
-    ]
+# We always allow localhost variants so you can test locally.
+ALLOWED_ORIGINS = [
+    FRONTEND_URL,
+    "http://localhost:5500",
+    "http://127.0.0.1:5500",
+    "null"  # For file:/// protocol testing
+]
 
 print(f"✓ CORS configured. Allowed origins: {ALLOWED_ORIGINS}")
 
