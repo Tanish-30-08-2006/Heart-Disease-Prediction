@@ -18,8 +18,7 @@ Trained on the UCI Heart Disease Dataset across 4 Jupyter Notebooks. Deployed as
 - [9. Feature Selection](#9-feature-selection)
 - [10. Model Training](#10-model-training)
 - [11. Model Selection and Evaluation](#11-model-selection-and-evaluation)
-- [12. Web Application and Deployment](#12-web-application-and-deployment)
-- [13. Developer and Connect](#13-developer-and-connect)
+- [12. Developer and Connect](#12-developer-and-connect)
 
 ---
 
@@ -317,55 +316,9 @@ Four tests run on `X_train` only. Drop rule: **2 or more strikes = dropped.**
 
 ---
 
-## 12. Web Application and Deployment
 
-### Architecture
 
-```mermaid
-graph LR
-    A[Doctor - Browser] --> B[Vercel - Frontend]
-    B -->|POST /predict| C[Render - FastAPI]
-    C --> D[standard_scaler.joblib]
-    C --> E[random_forest_model.joblib]
-    E -->|predict_proba + 35% threshold| F[JSON Response]
-    F --> B
-```
-
-### API Response
-
-```json
-{
-  "prediction": 1,
-  "probability": 0.4255,
-  "threshold_applied": 0.35,
-  "verdict": "High Risk",
-  "trees_voted_high_risk": 43,
-  "feature_importances": {
-    "ST_Slope_Up": 0.2214,
-    "ExerciseAngina_Y": 0.1832,
-    "Oldpeak": 0.1245,
-    "MaxHR": 0.0987,
-    "ChestPainType_ATA": 0.0812
-  }
-}
-```
-
-### Tech Stack
-
-| Layer        | Technology                   |
-|--------------|------------------------------|
-| Frontend     | HTML5, CSS3, JavaScript ES6+ |
-| Charts       | Chart.js 4.4.1               |
-| Backend      | Python 3.11, FastAPI         |
-| ML           | scikit-learn 1.4.2, Joblib   |
-| Backend Host | Render (Free Tier)           |
-| Frontend Host| Vercel                       |
-
-[Back to Table of Contents](#table-of-contents)
-
----
-
-## 13. Developer and Connect
+## 12. Developer and Connect
 
 **Tanish Sanghavi** — Machine Learning Engineer
 
